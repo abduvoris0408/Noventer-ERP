@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Logo, LogoDark } from '../assets'
+import LottieLoader from '../components/lottie-loader'
 import { PhoneInput } from '../components/phone-input'
 import { Button } from '../components/ui/button'
 import {
@@ -12,22 +13,19 @@ import {
 } from '../components/ui/card'
 import { Input } from '../components/ui/input'
 import { Label } from '../components/ui/label'
-import LottieLoader from '../components/lottie-loader'
 
 export default function LoginPage() {
 	return (
 		<div className='flex min-h-screen w-full'>
-			{/* Left side - Logo/Image */}
 			<div className='hidden w-1/2 items-center justify-center bg-muted p-8 md:flex'>
 				<div className='relative h-full w-full max-w-md'>
-					<LottieLoader/>
+					<LottieLoader />
 				</div>
 			</div>
 
-			{/* Right side - Login Form */}
 			<div className='flex w-full items-center justify-center p-8 md:w-1/2'>
-				<Card className='w-full max-w-md'>
-					<CardHeader className='space-y-1 gap-y-2 flex flex-col justify-center items-center'>
+				<Card className='w-full max-w-md '>
+					<CardHeader className='space-y-1 gap-y-2 flex flex-col justify-center items-center '>
 						<div className='flex items-center'>
 							<img
 								src={Logo}
@@ -40,9 +38,7 @@ export default function LoginPage() {
 								className='block dark:hidden'
 							/>
 						</div>
-						<CardTitle className='text-xl text-gray-600'>
-							Crm tizimi bilan biznesingizni rivojlantiring
-						</CardTitle>
+						<CardTitle className='text-xl text-gray-600'></CardTitle>
 						<CardDescription>
 							Telefon raqamingiz va parolingizni kiriting
 						</CardDescription>

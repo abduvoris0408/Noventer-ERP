@@ -1,10 +1,11 @@
 import {
 	Calendar,
+	Clock,
+	Eye,
 	Filter,
+	FolderInput,
 	MoreHorizontal,
 	Phone,
-	Plus,
-	User,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
@@ -29,9 +30,13 @@ import {
 } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
 
-// Skeleton component
+interface SidebarContextType {
+	isCollapsed: boolean
+}
 function AttendanceSkeleton() {
-	const { isCollapsed } = useOutletContext() || { isCollapsed: false }
+	const { isCollapsed } = useOutletContext<SidebarContextType>() || {
+		isCollapsed: false,
+	}
 	const skeletonRows = Array(9).fill(null)
 
 	return (
@@ -135,16 +140,17 @@ function AttendanceSkeleton() {
 
 export default function AttendanceWithLoading() {
 	const [loading, setLoading] = useState(true)
-	const { isCollapsed } = useOutletContext() || { isCollapsed: false }
+	const { isCollapsed } = useOutletContext<SidebarContextType>() || {
+		isCollapsed: false,
+	}
 
-	// Sample employee data
 	const employees = Array(9).fill({
 		name: 'Ubaydullayev Nurillo',
-		role: 'Direktor',
+		role: 'Tashkent',
 		phone: '+998 (90) 954-21-11',
 		recruiter: 'Sheroz Turdiyev',
-		shift: '9:00 - 10:00',
-		startDate: '01-02-2025',
+		shift: '01-02-2025 18:56',
+		startDate: '01-02-2025 8:56',
 	})
 
 	useEffect(() => {
@@ -155,7 +161,6 @@ export default function AttendanceWithLoading() {
 		return () => clearTimeout(timer)
 	}, [])
 
-	// Show skeleton while loading
 	if (loading) {
 		return <AttendanceSkeleton />
 	}
@@ -166,14 +171,14 @@ export default function AttendanceWithLoading() {
 				className='right-10 transition-all duration-300 ease-in-out py-6'
 				style={{
 					width: isCollapsed
-						? 'calc(100% + 220px)'
-						: 'calc(100% - 10px)',
+						? 'calc(100% + 320px)'
+						: 'calc(100% + 80px)',
 				}}
 			>
 				<div className='flex items-center justify-between w-full gap-4 pb-4 '>
 					<Button className='flex items-center gap-2 bg-[#3874ff] hover:bg-[#3874ff]/90 text-white cursor-pointer'>
-						<Plus className='w-4 h-4' />
-						Xodim qo&apos;shish
+						<FolderInput className='h-4 w-4' />
+						Export
 					</Button>
 
 					<div className='flex items-center gap-2'>
@@ -214,7 +219,7 @@ export default function AttendanceWithLoading() {
 									F.I.SH
 								</th>
 								<th className='p-4 text-left font-medium text-[#525b75]'>
-									Role
+									Filial
 								</th>
 								<th className='p-4 text-left font-medium text-[#525b75]'>
 									<div className='flex items-center'>
@@ -222,23 +227,22 @@ export default function AttendanceWithLoading() {
 										Phone
 									</div>
 								</th>
-								<th className='p-4 text-left font-medium text-[#525b75]'>
-									<div className='flex items-center'>
-										<User className='mr-2 h-5 w-5 text-[#525b75]' />
-										Ishga qabul qiluvchi
-									</div>
-								</th>
+
 								<th className='p-4 text-left font-medium text-[#525b75]'>
 									<div className='flex items-center'>
 										<Calendar className='mr-2 h-5 w-5 text-[#525b75]' />
-										Smenasi
+										Ishga kelgan vaqti
 									</div>
 								</th>
-								<th className='p-4 text-left font-medium text-[#525b75]'>
-									Ish boshlagan sana
+								<th className='p-4 flex items-center text-left font-medium text-[#525b75]'>
+									<Clock className='mr-2 h-5 w-5 text-[#525b75]' />
+									Ishdan chiqqan vaqti
 								</th>
 
-								<th className='p-4 text-center font-medium text-[#525b75]'></th>
+								<th className='p-4 text-center font-medium text-[#525b75]'>
+									{' '}
+									<Eye className='cursor-pointer' />
+								</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -273,9 +277,7 @@ export default function AttendanceWithLoading() {
 									<td className='p-4 text-[#525b75]'>
 										{employee.phone}
 									</td>
-									<td className='p-4 text-[#525b75]'>
-										{employee.recruiter}
-									</td>
+
 									<td className='p-4 text-[#525b75]'>
 										{employee.shift}
 									</td>

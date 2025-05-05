@@ -35,7 +35,7 @@ import { SidebarProvider } from './components/ui/sidebar'
 export default function App() {
 	const [isCollapsed, setIsCollapsed] = useState(false)
 
-	const handleSidebarToggle = collapsed => {
+	const handleSidebarToggle = (collapsed: boolean) => {
 		setIsCollapsed(collapsed)
 	}
 

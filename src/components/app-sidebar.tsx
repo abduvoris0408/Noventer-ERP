@@ -300,15 +300,16 @@
 // 		</div>
 // 	)
 // }
+
 import { Tooltip } from '@mui/material'
 import {
 	Bell,
-	Calendar,
-	Home,
-	Inbox,
 	LogOut,
+	PackageCheck,
+	ReceiptText,
 	Search,
 	Settings,
+	Users,
 } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -328,15 +329,16 @@ import FullscreenToggle from './FullscreenToggle'
 import NotificationPanel from './NotificationPanel'
 import SearchInput from './SearchInput'
 import ToggleMode from './ToggleMode'
-
-export function AppSidebar({ onSidebarToggle }) {
+interface Props {
+  onSidebarToggle?: (collapsed: boolean) => void
+}
+export function AppSidebar({ onSidebarToggle }: Props) {
 	const [isCollapsed, setIsCollapsed] = useState(false)
 
-	// Menu items
 	const items = [
-		{ title: 'Xodimlar ro`yxati', url: '/employee', icon: Home },
-		{ title: 'Xodimlar davomati', url: '/attendance', icon: Inbox },
-		{ title: 'Mijozlar', url: '/clients', icon: Calendar },
+		{ title: 'Xodimlar ro`yxati', url: '/employee', icon: ReceiptText },
+		{ title: 'Xodimlar davomati', url: '/attendance', icon: PackageCheck },
+		{ title: 'Mijozlar', url: '/clients', icon: Users },
 		{ title: 'Qidiruv', url: '/', icon: Search },
 		{ title: 'Sozlamalar', url: '/', icon: Settings },
 	]

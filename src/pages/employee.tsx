@@ -235,10 +235,14 @@ import {
 	SelectValue,
 } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
-
+interface SidebarContextType {
+	isCollapsed: boolean
+}
 // Skeleton component
 function EmployeeSkeleton() {
-	const { isCollapsed } = useOutletContext() || { isCollapsed: false }
+	const { isCollapsed } = useOutletContext<SidebarContextType>() || {
+		isCollapsed: false,
+	}
 	const skeletonRows = Array(9).fill(null)
 
 	return (
@@ -343,7 +347,9 @@ function EmployeeSkeleton() {
 // Main component that combines skeleton and actual data
 export default function EmployeeWithLoading() {
 	const [loading, setLoading] = useState(true)
-	const { isCollapsed } = useOutletContext() || { isCollapsed: false }
+	const { isCollapsed } = useOutletContext<SidebarContextType>() || {
+		isCollapsed: false,
+	}
 
 	// Sample employee data
 	const employees = Array(9).fill({

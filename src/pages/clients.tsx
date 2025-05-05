@@ -1,8 +1,12 @@
 import { useOutletContext } from 'react-router-dom'
 import { Skeleton } from '../components/ui/skeleton'
-
+interface SidebarContextType {
+	isCollapsed: boolean
+}
 const ClientsPage = () => {
-	const { isCollapsed } = useOutletContext() || { isCollapsed: false }
+	const { isCollapsed } = useOutletContext<SidebarContextType>() || {
+		isCollapsed: false,
+	}
 	const skeletonRows = Array(9).fill(null)
 	return (
 		<div className='container mx-auto py-14 w-[100%]'>

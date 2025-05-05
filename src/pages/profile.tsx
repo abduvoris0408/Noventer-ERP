@@ -16,7 +16,9 @@ import { useRef, useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
-
+interface SidebarContextType {
+	isCollapsed: boolean
+}
 export default function ProfilePage() {
 	const [isEditing, setIsEditing] = useState(false)
 	const [profileImage, setProfileImage] = useState<string | null>(null)
@@ -68,7 +70,9 @@ export default function ProfilePage() {
 		console.log('Profile image:', profileImage)
 		setIsEditing(false)
 	}
-	const { isCollapsed } = useOutletContext() || { isCollapsed: false }
+	const { isCollapsed } = useOutletContext<SidebarContextType>() || {
+		isCollapsed: false,
+	}
 	return (
 		<div className='container mx-auto py-14  w-[100%]'>
 			<div
