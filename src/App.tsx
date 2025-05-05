@@ -28,10 +28,10 @@
 
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import { Toaster } from 'sonner'
 import { AppSidebar } from './components/app-sidebar'
 import Footer from './components/Footer'
 import { SidebarProvider } from './components/ui/sidebar'
-
 export default function App() {
 	const [isCollapsed, setIsCollapsed] = useState(false)
 
@@ -52,6 +52,7 @@ export default function App() {
 					<Outlet context={{ isCollapsed }} />
 					<Footer isCollapsed={isCollapsed} />
 				</main>
+				<Toaster position='top-center' />
 			</div>
 		</SidebarProvider>
 	)

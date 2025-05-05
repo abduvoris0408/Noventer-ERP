@@ -330,7 +330,7 @@ import NotificationPanel from './NotificationPanel'
 import SearchInput from './SearchInput'
 import ToggleMode from './ToggleMode'
 interface Props {
-  onSidebarToggle?: (collapsed: boolean) => void
+	onSidebarToggle?: (collapsed: boolean) => void
 }
 export function AppSidebar({ onSidebarToggle }: Props) {
 	const [isCollapsed, setIsCollapsed] = useState(false)
@@ -416,11 +416,13 @@ export function AppSidebar({ onSidebarToggle }: Props) {
 							</Tooltip>
 
 							<Tooltip title='Profil' placement='bottom'>
-								<img
-									className='w-10 h-10 border rounded-full cursor-pointer'
-									src='/api/placeholder/32/32'
-									alt='user photo'
-								/>
+								<Link to={'/'}>
+									<img
+										className='w-10 h-10 border rounded-full cursor-pointer'
+										src='/src/assets/react.svg'
+										alt='user photo'
+									/>
+								</Link>
 							</Tooltip>
 						</div>
 					</div>

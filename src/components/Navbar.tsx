@@ -1,12 +1,13 @@
 import { Tooltip } from '@mui/material'
 import { Bell } from 'lucide-react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Logo, LogoDark } from '../assets'
 import FullscreenToggle from './FullscreenToggle'
 import NotificationPanel from './NotificationPanel'
 import SearchInput from './SearchInput'
 import ToggleMode from './ToggleMode'
 import { SidebarTrigger } from './ui/sidebar'
-import { useState } from 'react'
 
 const Navbar = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false)
@@ -22,7 +23,6 @@ const Navbar = () => {
 			>
 				<div className='px-3 py-3 lg:px-5 lg:pl-3'>
 					<div className='flex items-center justify-between'>
-						{/* Logo */}
 						<div className='flex items-center'>
 							<img
 								src={Logo}
@@ -36,12 +36,10 @@ const Navbar = () => {
 							/>
 						</div>
 
-						{/* Search */}
 						<div>
 							<SearchInput />
 						</div>
 
-						{/* Icons */}
 						<div className='flex items-center gap-2'>
 							<Tooltip title='Sidebar' placement='bottom'>
 								<div
@@ -76,11 +74,13 @@ const Navbar = () => {
 							</Tooltip>
 
 							<Tooltip title='Profil' placement='bottom'>
-								<img
-									className='w-10 h-10 border rounded-full cursor-pointer'
-									src='/api/placeholder/32/32'
-									alt='user photo'
-								/>
+								<Link to={'/'}>
+									<img
+										className='w-10 h-10 border rounded-full cursor-pointer'
+										src='/src/assets/background-pattern.jpg'
+										alt='user photo'
+									/>
+								</Link>
 							</Tooltip>
 						</div>
 					</div>
