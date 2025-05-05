@@ -1,4 +1,7 @@
-const Footer = ({ isCollapsed }) => {
+interface SidebarContextType {
+	isCollapsed: boolean
+}
+const Footer = ({ isCollapsed }: SidebarContextType) => {
 	return (
 		<footer
 			className={`fixed bottom-0 m-2 right-[1px] py-4 text-center text-sm rounded-md text-gray-500 border transition-all duration-300 ease-in-out ${

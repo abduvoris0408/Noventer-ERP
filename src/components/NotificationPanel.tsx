@@ -8,8 +8,11 @@ const notifications = [
 		message: 'Hisobingizda kam balans mavjud.',
 	},
 ]
-
-const NotificationPanel = ({ isOpen, onClose }) => {
+interface NotificationPanelProps {
+	isOpen: boolean
+	onClose: () => void
+}
+const NotificationPanel = ({ isOpen, onClose }: NotificationPanelProps) => {
 	return (
 		<div
 			className={`fixed top-0 right-[0] h-[calc(100vh-15px)] w-80 bg-white dark:bg-sidebar border m-2 rounded-md  shadow-lg transform transition-transform duration-300 z-50 ${
