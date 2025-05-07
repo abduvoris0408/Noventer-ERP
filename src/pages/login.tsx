@@ -109,13 +109,14 @@ import { Input } from '../components/ui/input'
 import { Label } from '../components/ui/label'
 
 interface LoginResponse {
-	access: string
-	refresh: string
-	tokens: {
-		access: string
-		refresh: string
+	success: boolean
+	data: {
+		phone_number: string
+		tokens: {
+			access: string
+			refresh: string
+		}
 	}
-	message?: string
 }
 
 const LoginPage: React.FC = () => {
@@ -123,6 +124,58 @@ const LoginPage: React.FC = () => {
 	const [password, setPassword] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(false)
 	const navigate = useNavigate()
+
+	// const handleLogin = async (e: React.FormEvent): Promise<void> => {
+	// 	e.preventDefault()
+
+	// 	if (!phone || !password) {
+	// 		toast.error('Telefon raqam va parol kiritilishi shart')
+	// 		return
+	// 	}
+	// 	setLoading(true)
+
+	// 	try {
+	// 		const response = await axios.post<LoginResponse>(
+	// 			'https://api.noventer.uz/api/v1/accounts/login/',
+	// 			JSON.stringify({
+	// 				phone_number: phone.split(' ').join(''),
+	// 				password: password,
+	// 			}),
+	// 			{
+	// 				headers: {
+	// 					'Content-Type': 'application/json',
+	// 				},
+	// 			}
+	// 		)
+
+	// 		console.log('Login response:', response.data)
+
+	// 		const { access, refresh } = response.data.tokens
+	// 		localStorage.setItem('accessToken', access)
+	// 		localStorage.setItem('refreshToken', refresh)
+
+	// 		navigate('/')
+	// 	} catch (error) {
+	// 		let errorMessage = 'Tizimga kirishda xatolik yuz berdi'
+
+	// 		console.error('Login error:', error)
+
+	// 		if (axios.isAxiosError(error)) {
+	// 			if (error.response?.status === 401) {
+	// 				errorMessage = "Noto'g'ri telefon raqam yoki parol"
+	// 			} else if (error.response?.data?.message) {
+	// 				errorMessage = error.response.data.message
+	// 			} else if (error.request) {
+	// 				errorMessage =
+	// 					"Server bilan bog'lanib bo'lmadi. Iltimos internetingizni tekshiring."
+	// 			}
+	// 		}
+
+	// 		toast.error(errorMessage)
+	// 	} finally {
+	// 		setLoading(false)
+	// 	}
+	// }
 
 	const handleLogin = async (e: React.FormEvent): Promise<void> => {
 		e.preventDefault()
@@ -146,12 +199,21 @@ const LoginPage: React.FC = () => {
 					},
 				}
 			)
-			console.log('Login response:', response.data)
-			const { access, refresh } = response.data
-			localStorage.setItem('accessToken', access)
-			localStorage.setItem('refreshToken', refresh)
 
-			navigate('/')
+			console.log('Login response:', response.data)
+
+			const tokens = response.data?.data?.tokens
+
+			if (tokens?.access && tokens?.refresh) {
+				localStorage.setItem('accessToken', tokens.access)
+				localStorage.setItem('refreshToken', tokens.refresh)
+
+				navigate('/')
+			} else {
+				toast.error(
+					'Tokenlar olinmadi, iltimos, qaytadan urinib ko‘ring'
+				)
+			}
 		} catch (error) {
 			let errorMessage = 'Tizimga kirishda xatolik yuz berdi'
 

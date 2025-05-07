@@ -304,6 +304,7 @@
 import { Tooltip } from '@mui/material'
 import {
 	Bell,
+	CalendarClock,
 	LogOut,
 	PackageCheck,
 	ReceiptText,
@@ -340,6 +341,7 @@ export function AppSidebar({ onSidebarToggle }: Props) {
 		{ title: 'Xodimlar davomati', url: '/attendance', icon: PackageCheck },
 		{ title: 'Mijozlar', url: '/clients', icon: Users },
 		{ title: 'Qidiruv', url: '/', icon: Search },
+		{ title: 'Smenalar', url: '/shifts', icon: CalendarClock },
 		{ title: 'Sozlamalar', url: '/', icon: Settings },
 	]
 
