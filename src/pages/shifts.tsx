@@ -1,19 +1,7 @@
-import {
-	Calendar,
-	Clock,
-	Eye,
-	FolderInput,
-	MoreHorizontal,
-	Pencil,
-	Phone,
-	Plus,
-	Trash2,
-} from 'lucide-react'
+import { Pencil, Plus, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link, useOutletContext } from 'react-router-dom'
-import { Avatar } from '../components/ui/avatar'
+import { useOutletContext } from 'react-router-dom'
 import { Button } from '../components/ui/button'
-import { Checkbox } from '../components/ui/checkbox'
 import {
 	Pagination,
 	PaginationContent,
@@ -147,7 +135,6 @@ function ShiftsSkeleton() {
 }
 
 export default function ShiftsWithLoading() {
-	
 	const { isCollapsed } = useOutletContext<SidebarContextType>() || {
 		isCollapsed: false,
 	}
@@ -215,90 +202,82 @@ export default function ShiftsWithLoading() {
 				</div>
 				<div className='overflow-x-auto'>
 					<table className='w-full border-collapse '>
-					<thead>
-									<tr className='bg-gray-50 border-b'>
-										<th className='text-left py-3 px-4 font-medium text-gray-700'>
-											N#
-										</th>
-										<th className='text-left py-3 px-4 font-medium text-gray-700'>
-											Smena
-										</th>
-										<th className='text-left py-3 px-4 font-medium text-gray-700'>
-											Boshlash vaqti
-										</th>
-										<th className='text-left py-3 px-4 font-medium text-gray-700'>
-											Tugash vaqti
-										</th>
-										<th className='text-right py-3 px-4 font-medium text-gray-700'></th>
-									</tr>
-								</thead>
-								<tbody>
-									{loading
-										? Array.from({ length: 3 }).map(
-												(_, index) => (
-													<tr
-														key={index}
-														className='border-b'
+						<thead>
+							<tr className='bg-sidebar border-b'>
+								<th className='text-left py-3 px-4 font-medium text-gray-700'>
+									N#
+								</th>
+								<th className='text-left py-3 px-4 font-medium text-gray-700'>
+									Smena
+								</th>
+								<th className='text-left py-3 px-4 font-medium text-gray-700'>
+									Boshlash vaqti
+								</th>
+								<th className='text-left py-3 px-4 font-medium text-gray-700'>
+									Tugash vaqti
+								</th>
+								<th className='text-right py-3 px-4 font-medium text-gray-700'></th>
+							</tr>
+						</thead>
+						<tbody>
+							{loading
+								? Array.from({ length: 3 }).map((_, index) => (
+										<tr key={index} className='border-b'>
+											<td className='py-3 px-4'>
+												<Skeleton className='h-6 w-6' />
+											</td>
+											<td className='py-3 px-4'>
+												<Skeleton className='h-6 w-24' />
+											</td>
+											<td className='py-3 px-4'>
+												<Skeleton className='h-6 w-20' />
+											</td>
+											<td className='py-3 px-4'>
+												<Skeleton className='h-6 w-20' />
+											</td>
+											<td className='py-3 px-4 text-right'>
+												<div className='flex justify-end gap-2'>
+													<Skeleton className='h-8 w-8 rounded' />
+													<Skeleton className='h-8 w-8 rounded' />
+												</div>
+											</td>
+										</tr>
+								  ))
+								: scheduleData.map(item => (
+										<tr key={item.id} className='border-b'>
+											<td className='py-3 px-4'>
+												{item.id}
+											</td>
+											<td className='py-3 px-4'>
+												{item.smena}
+											</td>
+											<td className='py-3 px-4'>
+												{item.startTime}
+											</td>
+											<td className='py-3 px-4'>
+												{item.endTime}
+											</td>
+											<td className='py-3 px-4 text-right'>
+												<div className='flex justify-end gap-2'>
+													<Button
+														size='icon'
+														variant='ghost'
+														className='h-8 w-8 bg-orange-500 hover:bg-orange-600 text-white'
 													>
-														<td className='py-3 px-4'>
-															<Skeleton className='h-6 w-6' />
-														</td>
-														<td className='py-3 px-4'>
-															<Skeleton className='h-6 w-24' />
-														</td>
-														<td className='py-3 px-4'>
-															<Skeleton className='h-6 w-20' />
-														</td>
-														<td className='py-3 px-4'>
-															<Skeleton className='h-6 w-20' />
-														</td>
-														<td className='py-3 px-4 text-right'>
-															<div className='flex justify-end gap-2'>
-																<Skeleton className='h-8 w-8 rounded' />
-																<Skeleton className='h-8 w-8 rounded' />
-															</div>
-														</td>
-													</tr>
-												)
-										  )
-										: scheduleData.map((item) => (
-												<tr
-													key={item.id}
-													className='border-b'
-												>
-													<td className='py-3 px-4'>
-														{item.id}
-													</td>
-													<td className='py-3 px-4'>
-														{item.smena}
-													</td>
-													<td className='py-3 px-4'>
-														{item.startTime}
-													</td>
-													<td className='py-3 px-4'>
-														{item.endTime}
-													</td>
-													<td className='py-3 px-4 text-right'>
-														<div className='flex justify-end gap-2'>
-															<Button
-																size='icon'
-																variant='ghost'
-																className='h-8 w-8 bg-orange-500 hover:bg-orange-600 text-white'
-															>
-																<Pencil className='h-4 w-4' />
-															</Button>
-															<Button
-																size='icon'
-																variant='ghost'
-																className='h-8 w-8 bg-red-500 hover:bg-red-600 text-white'
-															>
-																<Trash2 className='h-4 w-4' />
-															</Button>
-														</div>
-													</td>
-												</tr>
-										  ))}
-								</tbody>
+														<Pencil className='h-4 w-4' />
+													</Button>
+													<Button
+														size='icon'
+														variant='ghost'
+														className='h-8 w-8 bg-red-500 hover:bg-red-600 text-white'
+													>
+														<Trash2 className='h-4 w-4' />
+													</Button>
+												</div>
+											</td>
+										</tr>
+								  ))}
+						</tbody>
 					</table>
 				</div>
 
@@ -330,9 +309,6 @@ export default function ShiftsWithLoading() {
 		</div>
 	)
 }
-
-
-	
 
 // 					<div className='border rounded-md'>
 // 						<div className=''>
@@ -421,8 +397,8 @@ export default function ShiftsWithLoading() {
 // 												</tr>
 // 										  ))}
 // 								</tbody>
-							// </table>
+// </table>
 // 						</div>
 // 					</div>
-// 				</div> 
+// 				</div>
 // }

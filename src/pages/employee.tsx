@@ -207,6 +207,7 @@
 
 import {
 	Calendar,
+	Eye,
 	Filter,
 	MoreHorizontal,
 	Phone,
@@ -344,14 +345,12 @@ function EmployeeSkeleton() {
 	)
 }
 
-// Main component that combines skeleton and actual data
 export default function EmployeeWithLoading() {
 	const [loading, setLoading] = useState(true)
 	const { isCollapsed } = useOutletContext<SidebarContextType>() || {
 		isCollapsed: false,
 	}
 
-	// Sample employee data
 	const employees = Array(9).fill({
 		name: 'Ubaydullayev Nurillo',
 		role: 'Direktor',
@@ -361,21 +360,18 @@ export default function EmployeeWithLoading() {
 		startDate: '01-02-2025',
 	})
 
-	// Set a 5-second timer to switch from skeleton to actual data
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setLoading(false)
-		}, 3000) // 5 seconds
+		}, 3000)
 
 		return () => clearTimeout(timer)
 	}, [])
 
-	// Show skeleton while loading
 	if (loading) {
 		return <EmployeeSkeleton />
 	}
 
-	// Show actual data after loading
 	return (
 		<div className='container mx-auto py-14 w-[100%]'>
 			<div
@@ -454,7 +450,9 @@ export default function EmployeeWithLoading() {
 									Ish boshlagan sana
 								</th>
 
-								<th className='p-4 text-center font-medium text-[#525b75]'></th>
+								<th className='p-4 text-center font-medium text-[#525b75]'>
+									<Eye className='mr-2 h-5 w-5 cursor-pointer text-[#525b75]' />
+								</th>
 							</tr>
 						</thead>
 						<tbody>
