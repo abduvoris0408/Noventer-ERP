@@ -4,6 +4,7 @@ import type React from 'react'
 
 import {
 	Calendar,
+	Compass,
 	Eye,
 	MoreHorizontal,
 	Phone,
@@ -203,7 +204,7 @@ export default function ClientsPage() {
 		phone: '',
 		branch: null,
 	})
-	const [branches, setBranches] = useState<Branch[]>([
+	const [branches] = useState<Branch[]>([
 		{
 			id: 2,
 			name: 'Chilonzor filiali 1',
@@ -527,132 +528,124 @@ export default function ClientsPage() {
 					</form>
 				</div>
 
-				{loading && clients.length > 0 ? (
-					<div className='flex justify-center my-8'>
-						<div className='animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary'></div>
-					</div>
-				) : (
-					<div className='overflow-x-auto'>
-						<table className='w-full border-collapse'>
-							<thead>
-								<tr className='bg-sidebar border-b'>
-									<th className='p-4 text-left font-medium text-[#525b75]'>
-										<Checkbox />
-									</th>
-									<th className='p-4 text-left font-medium text-[#525b75]'>
-										Mijoz
-									</th>
-									<th className='p-4 text-left font-medium text-[#525b75]'>
-										<div className='flex items-center'>
-											<Phone className='mr-2 h-5 w-5 text-[#525b75]' />
-											Telefon
-										</div>
-									</th>
-									<th className='p-4 text-left font-medium text-[#525b75]'>
-										<div className='flex items-center'>
-											<User className='mr-2 h-5 w-5 text-[#525b75]' />
-											Filial
-										</div>
-									</th>
-									<th className='p-4 text-left font-medium text-[#525b75]'>
-										<div className='flex items-center'>
-											<Calendar className='mr-2 h-5 w-5 text-[#525b75]' />
-											Litsenziya
-										</div>
-									</th>
-									<th className='p-4 text-left font-medium text-[#525b75]'>
-										Yaratilgan vaqti
-									</th>
-									<th className='p-4 text-center font-medium text-[#525b75]'>
-										<Eye className='mx-auto h-5 w-5 cursor-pointer text-[#525b75]' />
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{clients.length > 0 ? (
-									clients.map(client => (
-										<tr
-											key={client.id}
-											className='border-b bg-sidebar'
-										>
-											<td className='p-4'>
-												<Checkbox />
-											</td>
-											<td className='p-4'>
-												<div className='flex items-center gap-3'>
-													{client.avatar ? (
-														<img
-															src={
-																client.avatar ||
-																'/placeholder.svg'
-															}
-															alt={client.name}
-															className='h-10 w-10 rounded-full object-cover'
-														/>
-													) : (
-														<div className='h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center'>
-															<User className='h-6 w-6 text-gray-500' />
-														</div>
-													)}
-													<Link
-														to={`/clients/${client.id}`}
-														className='text-[#003cc7] font-medium hover:underline'
-													>
-														{client.name}
-													</Link>
-												</div>
-											</td>
-											<td className='p-4 text-[#525b75]'>
-												{client.phone}
-											</td>
-											<td className='p-4 text-[#525b75]'>
-												{client.branch_name}
-											</td>
-											<td className='p-4 text-[#525b75]'>
-												{client.license_file ? (
-													<a
-														href={
-															client.license_file
+				<div className='overflow-x-auto'>
+					<table className='w-full border-collapse'>
+						<thead>
+							<tr className='bg-sidebar border-b'>
+								<th className='p-4  text-left font-medium text-[#525b75]'>
+									<Checkbox />
+								</th>
+								<th className='p-4 w-50 text-left font-medium text-[#525b75]'>
+									Mijoz
+								</th>
+								<th className='p-4 text-center w-50 font-medium text-[#525b75]'>
+									<div className='flex items-center'>
+										<Phone className='mr-2 h-5 w-5 text-[#525b75]' />
+										Telefon
+									</div>
+								</th>
+								<th className='p-4 text-center w-50 font-medium text-[#525b75]'>
+									<div className='flex items-center'>
+										<Compass className='mr-2 h-5 w-5 text-[#525b75]' />
+										Filial
+									</div>
+								</th>
+								<th className='p-4 w-50 text-left font-medium text-[#525b75]'>
+									<div className='flex items-center'>
+										<Calendar className='mr-2 h-5 w-5 text-[#525b75]' />
+										Litsenziya
+									</div>
+								</th>
+								<th className='p-4 text-left w-50 font-medium text-[#525b75]'>
+									Yaratilgan vaqti
+								</th>
+								<th className='p-4 text-center font-medium text-[#525b75]'>
+									<Eye className='mx-auto h-5 w-5 cursor-pointer text-[#525b75]' />
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{clients.length > 0 ? (
+								clients.map(client => (
+									<tr
+										key={client.id}
+										className='border-b bg-sidebar'
+									>
+										<td className='p-4'>
+											<Checkbox />
+										</td>
+										<td className='p-4'>
+											<div className='flex items-center gap-3'>
+												{client.avatar ? (
+													<img
+														src={
+															client.avatar ||
+															'/placeholder.svg'
 														}
-														target='_blank'
-														rel='noopener noreferrer'
-														className='text-[#003cc7] hover:underline flex items-center gap-1'
-													>
-														<Eye className='h-4 w-4' />{' '}
-														Ko'rish
-													</a>
+														alt={client.name}
+														className='h-10 w-10 rounded-full object-cover'
+													/>
 												) : (
-													'Mavjud emas'
+													<div className='h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center'>
+														<User className='h-6 w-6 text-gray-500' />
+													</div>
 												)}
-											</td>
-											<td className='p-4 text-[#525b75]'>
-												{formatDate(client.created_at)}
-											</td>
-											<td className='p-4 text-center'>
-												<Button
-													variant='ghost'
-													size='icon'
-													className='h-8 w-8 rounded-full cursor-pointer'
+												<Link
+													to={`/clients/${client.id}`}
+													className='text-[#003cc7] font-medium hover:underline'
 												>
-													<MoreHorizontal className='h-4 w-4 text-[#525b75]' />
-												</Button>
-											</td>
-										</tr>
-									))
-								) : (
-									<tr>
-										<td
-											colSpan={7}
-											className='text-center py-8 text-[#525b75]'
-										>
-											Mijozlar topilmadi
+													{client.name}
+												</Link>
+											</div>
+										</td>
+										<td className='p-4 text-[#525b75]'>
+											{client.phone}
+										</td>
+										<td className='p-4 text-[#525b75]'>
+											{client.branch_name}
+										</td>
+										<td className='p-4 text-[#525b75]'>
+											{client.license_file ? (
+												<a
+													href={client.license_file}
+													target='_blank'
+													rel='noopener noreferrer'
+													className='text-[#003cc7] hover:underline flex items-center gap-1'
+												>
+													<Eye className='h-4 w-4' />{' '}
+													Ko'rish
+												</a>
+											) : (
+												'Mavjud emas'
+											)}
+										</td>
+										<td className='p-4 text-[#525b75]'>
+											{formatDate(client.created_at)}
+										</td>
+										<td className='p-4 text-center'>
+											<Button
+												variant='ghost'
+												size='icon'
+												className='h-8 w-8 rounded-full cursor-pointer'
+											>
+												<MoreHorizontal className='h-4 w-4 text-[#525b75]' />
+											</Button>
 										</td>
 									</tr>
-								)}
-							</tbody>
-						</table>
-					</div>
-				)}
+								))
+							) : (
+								<tr>
+									<td
+										colSpan={7}
+										className='text-center py-8 text-[#525b75]'
+									>
+										Mijozlar topilmadi
+									</td>
+								</tr>
+							)}
+						</tbody>
+					</table>
+				</div>
 
 				{totalPages > 0 && (
 					<Pagination>
@@ -718,7 +711,6 @@ export default function ClientsPage() {
 				)}
 			</div>
 
-			{/* Add Client Modal */}
 			<Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
 				<DialogContent className='sm:max-w-[500px]'>
 					<DialogHeader>
