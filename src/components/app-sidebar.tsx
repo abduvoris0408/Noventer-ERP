@@ -306,7 +306,6 @@ import {
 	Bell,
 	CalendarClock,
 	LogOut,
-	PackageCheck,
 	ReceiptText,
 	Search,
 	Settings,
@@ -338,7 +337,6 @@ export function AppSidebar({ onSidebarToggle }: Props) {
 
 	const items = [
 		{ title: 'Xodimlar ro`yxati', url: '/employee', icon: ReceiptText },
-		{ title: 'Xodimlar davomati', url: '/attendance', icon: PackageCheck },
 		{ title: 'Mijozlar', url: '/clients', icon: Users },
 		{ title: 'Qidiruv', url: '/', icon: Search },
 		{ title: 'Smenalar', url: '/shifts', icon: CalendarClock },

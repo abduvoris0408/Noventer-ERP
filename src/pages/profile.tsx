@@ -92,6 +92,7 @@ export default function ProfilePage() {
 				if (!response.ok) {
 					throw new Error(`API request failed: ${response.status}`)
 				}
+				console.log(response)
 
 				const data: CompanyData = await response.json()
 				setCompanyData(data)
