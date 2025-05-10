@@ -2,13 +2,12 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
-import { CalendarIcon, Loader2, Plus } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import { Button } from '../components/ui/button'
-import { Calendar } from '../components/ui/calendar'
 import {
 	Dialog,
 	DialogContent,
@@ -25,11 +24,6 @@ import {
 	FormMessage,
 } from '../components/ui/form'
 import { Input } from '../components/ui/input'
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '../components/ui/popover'
 import {
 	Select,
 	SelectContent,
@@ -174,7 +168,7 @@ export function EmployeeModal() {
 				phone_number: '+998',
 				passport_number: '',
 				jshshr: '',
-				birth_date: new Date(),
+				birth_date: new Date(1990, 0, 1),
 				salary_type: 'official',
 			},
 			branch_id: 0,
@@ -405,54 +399,156 @@ export function EmployeeModal() {
 											<FormLabel>
 												Tug'ilgan sana
 											</FormLabel>
-											<Popover>
-												<PopoverTrigger asChild>
-													<FormControl>
-														<Button
-															variant={'outline'}
-															className={`w-full pl-3 text-left font-normal ${
-																!field.value
-																	? 'text-muted-foreground'
-																	: ''
-															}`}
-														>
-															{field.value ? (
-																format(
-																	field.value,
-																	'dd.MM.yyyy'
-																)
-															) : (
-																<span>
-																	Sanani
-																	tanlang
-																</span>
-															)}
-															<CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-														</Button>
-													</FormControl>
-												</PopoverTrigger>
-												<PopoverContent
-													className='w-auto p-0'
-													align='start'
+											<div className='grid grid-cols-3 gap-2'>
+												<Select
+													onValueChange={day => {
+														const currentDate =
+															field.value ||
+															new Date()
+														const newDate =
+															new Date(
+																currentDate
+															)
+														newDate.setDate(
+															Number.parseInt(day)
+														)
+														field.onChange(newDate)
+													}}
+													value={
+														field.value
+															? field.value
+																	.getDate()
+																	.toString()
+															: '1'
+													}
 												>
-													<Calendar
-														mode='single'
-														selected={field.value}
-														onSelect={
-															field.onChange
-														}
-														initialFocus
-														disabled={date =>
-															date > new Date()
-														} // Disable future dates
-														defaultMonth={
-															new Date(1990, 0)
-														} // Default to January 1990 for birth dates
-														fromYear={1940}
-														toYear={new Date().getFullYear()}
-													/>
-												</PopoverContent>
-											</Popover>
+													<FormControl>
+														<SelectTrigger>
+															<SelectValue placeholder='Kun' />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{Array.from(
+															{ length: 31 },
+															(_, i) => i + 1
+														).map(day => (
+															<SelectItem
+																key={day}
+																value={day.toString()}
+															>
+																{day}
+															</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+
+												<Select
+													onValueChange={month => {
+														const currentDate =
+															field.value ||
+															new Date()
+														const newDate =
+															new Date(
+																currentDate
+															)
+														newDate.setMonth(
+															Number.parseInt(
+																month
+															)
+														)
+														field.onChange(newDate)
+													}}
+													value={
+														field.value
+															? field.value
+																	.getMonth()
+																	.toString()
+															: '0'
+													}
+												>
+													<FormControl>
+														<SelectTrigger>
+															<SelectValue placeholder='Oy' />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{[
+															'Yanvar',
+															'Fevral',
+															'Mart',
+															'Aprel',
+															'May',
+															'Iyun',
+															'Iyul',
+															'Avgust',
+															'Sentabr',
+															'Oktabr',
+															'Noyabr',
+															'Dekabr',
+														].map(
+															(month, index) => (
+																<SelectItem
+																	key={index}
+																	value={index.toString()}
+																>
+																	{month}
+																</SelectItem>
+															)
+														)}
+													</SelectContent>
+												</Select>
+
+												<Select
+													onValueChange={year => {
+														const currentDate =
+															field.value ||
+															new Date()
+														const newDate =
+															new Date(
+																currentDate
+															)
+														newDate.setFullYear(
+															Number.parseInt(
+																year
+															)
+														)
+														field.onChange(newDate)
+													}}
+													value={
+														field.value
+															? field.value
+																	.getFullYear()
+																	.toString()
+															: '1990'
+													}
+												>
+													<FormControl>
+														<SelectTrigger>
+															<SelectValue placeholder='Yil' />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent className='max-h-[200px]'>
+														{Array.from(
+															{
+																length:
+																	new Date().getFullYear() -
+																	1940 +
+																	1,
+															},
+															(_, i) =>
+																new Date().getFullYear() -
+																i
+														).map(year => (
+															<SelectItem
+																key={year}
+																value={year.toString()}
+															>
+																{year}
+															</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+											</div>
 											<FormMessage />
 										</FormItem>
 									)}

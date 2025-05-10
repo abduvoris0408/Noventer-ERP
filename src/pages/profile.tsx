@@ -157,8 +157,8 @@ export default function ProfilePage() {
 					className='right-10 transition-all duration-300 ease-in-out py-6'
 					style={{
 						width: isCollapsed
-							? 'calc(100% + 650px)'
-							: 'calc(100% + 430px)',
+							? 'calc(100% + 550px)'
+							: 'calc(100% + 230px)',
 					}}
 				>
 					<div className='flex items-center border-b'>
@@ -217,8 +217,8 @@ export default function ProfilePage() {
 				className='right-10 transition-all duration-300 ease-in-out py-6'
 				style={{
 					width: isCollapsed
-						? 'calc(100% + 650px)'
-						: 'calc(100% + 430px)',
+						? 'calc(100% + 550px)'
+						: 'calc(100% + 230px)',
 				}}
 			>
 				<div className='flex items-center border-b'>
