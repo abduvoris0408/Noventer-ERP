@@ -1084,48 +1084,51 @@ function ShiftsSkeleton({ isCollapsed }: { isCollapsed: boolean }) {
 					</div>
 				</div>
 				<div className='overflow-x-auto'>
-					{/* <table className='w-full border-collapse'>
+					<table className='w-full border-collapse'>
 						<thead>
-							<tr className='bg-sidebar border-b'>
-								<th className='p-4 text-left font-medium text-gray-700'>
-									<Skeleton className='h-4 w-16' />
+							<tr className='bg-sidebar text-center border-b'>
+								<th className='w-20 py-3 px-4 font-medium text-gray-700'>
+									<Skeleton className='h-4 w-10 mx-auto' />
 								</th>
-								<th className='p-4 text-left font-medium text-gray-700'>
-									<Skeleton className='h-4 w-24' />
+								<th className='w-50 py-3 px-4 font-medium text-gray-700'>
+									<Skeleton className='h-4 w-20 mx-auto' />
 								</th>
-								<th className='p-4 text-left font-medium text-gray-700'>
-									<Skeleton className='h-4 w-24' />
+								<th className='w-50 py-3 px-4 font-medium text-gray-700'>
+									<Skeleton className='h-4 w-28 mx-auto' />
 								</th>
-								<th className='p-4 text-left font-medium text-gray-700'>
-									<Skeleton className='h-4 w-24' />
+								<th className='w-70 py-3 px-4 font-medium text-gray-700'>
+									<Skeleton className='h-4 w-24 mx-auto' />
 								</th>
-								<th className='p-4 text-left font-medium text-gray-700'>
-									<Skeleton className='h-4 w-24' />
+								<th className='w-70 py-3 px-4 font-medium text-gray-700'>
+									<Skeleton className='h-4 w-24 mx-auto' />
 								</th>
-								<th className='p-4 text-right font-medium text-gray-700'>
-									<Skeleton className='h-4 w-16 ml-auto' />
+								<th className='w-30 py-3 px-4 font-medium text-gray-700'>
+									<Skeleton className='h-4 w-16 mx-auto' />
 								</th>
 							</tr>
 						</thead>
 						<tbody>
 							{skeletonRows.map((_, index) => (
-								<tr key={index} className='border-b'>
-									<td className='p-4'>
-										<Skeleton className='h-6 w-6' />
+								<tr
+									key={index}
+									className='border-b text-center'
+								>
+									<td className='py-3 px-4'>
+										<Skeleton className='h-6 w-6 mx-auto' />
 									</td>
-									<td className='p-4'>
-										<Skeleton className='h-6 w-24' />
+									<td className='py-3 px-4'>
+										<Skeleton className='h-6 w-20 mx-auto' />
 									</td>
-									<td className='p-4'>
-										<Skeleton className='h-6 w-32' />
+									<td className='py-3 px-4'>
+										<Skeleton className='h-6 w-28 mx-auto' />
 									</td>
-									<td className='p-4'>
-										<Skeleton className='h-6 w-20' />
+									<td className='py-3 px-4'>
+										<Skeleton className='h-6 w-24 mx-auto' />
 									</td>
-									<td className='p-4'>
-										<Skeleton className='h-6 w-20' />
+									<td className='py-3 px-4'>
+										<Skeleton className='h-6 w-24 mx-auto' />
 									</td>
-									<td className='p-4 text-right'>
+									<td className='py-3 px-4 text-right'>
 										<div className='flex justify-end gap-2'>
 											<Skeleton className='h-8 w-8 rounded' />
 											<Skeleton className='h-8 w-8 rounded' />
@@ -1134,59 +1137,7 @@ function ShiftsSkeleton({ isCollapsed }: { isCollapsed: boolean }) {
 								</tr>
 							))}
 						</tbody>
-					</table> */}
-					<table className='w-full border-collapse'>
-	<thead>
-		<tr className='bg-sidebar text-center border-b'>
-			<th className='w-20 py-3 px-4 font-medium text-gray-700'>
-				<Skeleton className='h-4 w-10 mx-auto' />
-			</th>
-			<th className='w-50 py-3 px-4 font-medium text-gray-700'>
-				<Skeleton className='h-4 w-20 mx-auto' />
-			</th>
-			<th className='w-50 py-3 px-4 font-medium text-gray-700'>
-				<Skeleton className='h-4 w-28 mx-auto' />
-			</th>
-			<th className='w-70 py-3 px-4 font-medium text-gray-700'>
-				<Skeleton className='h-4 w-24 mx-auto' />
-			</th>
-			<th className='w-70 py-3 px-4 font-medium text-gray-700'>
-				<Skeleton className='h-4 w-24 mx-auto' />
-			</th>
-			<th className='w-30 py-3 px-4 font-medium text-gray-700'>
-				<Skeleton className='h-4 w-16 mx-auto' />
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		{skeletonRows.map((_, index) => (
-			<tr key={index} className='border-b text-center'>
-				<td className='py-3 px-4'>
-					<Skeleton className='h-6 w-6 mx-auto' />
-				</td>
-				<td className='py-3 px-4'>
-					<Skeleton className='h-6 w-20 mx-auto' />
-				</td>
-				<td className='py-3 px-4'>
-					<Skeleton className='h-6 w-28 mx-auto' />
-				</td>
-				<td className='py-3 px-4'>
-					<Skeleton className='h-6 w-24 mx-auto' />
-				</td>
-				<td className='py-3 px-4'>
-					<Skeleton className='h-6 w-24 mx-auto' />
-				</td>
-				<td className='py-3 px-4 text-right'>
-					<div className='flex justify-end gap-2'>
-						<Skeleton className='h-8 w-8 rounded' />
-						<Skeleton className='h-8 w-8 rounded' />
-					</div>
-				</td>
-			</tr>
-		))}
-	</tbody>
-</table>
-
+					</table>
 				</div>
 
 				<div className='mt-4 flex justify-center'>

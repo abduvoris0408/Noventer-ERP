@@ -195,8 +195,11 @@ export default function ClientsPage() {
 	const [loading, setLoading] = useState(true)
 	const [clients, setClients] = useState<ClientData[]>([])
 	const [error, setError] = useState<string | null>(null)
-	const [page, setPage] = useState(1)
+	const [currentPage, setCurrentPage] = useState(1)
 	const [totalPages, setTotalPages] = useState(1)
+	const [totalCount, setTotalCount] = useState(0)
+	const [nextUrl, setNextUrl] = useState<string | null>(null)
+	const [prevUrl, setPrevUrl] = useState<string | null>(null)
 	const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 	const [searchQuery, setSearchQuery] = useState('')
 	const [newClient, setNewClient] = useState<NewClientData>({
@@ -283,6 +286,7 @@ export default function ClientsPage() {
 	const [licenseFile, setLicenseFile] = useState<File | null>(null)
 	const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 	const [licensePreview, setLicensePreview] = useState<string | null>(null)
+	const [limit] = useState(10)
 
 	const avatarInputRef = useRef<HTMLInputElement>(null)
 	const licenseInputRef = useRef<HTMLInputElement>(null)
@@ -291,7 +295,7 @@ export default function ClientsPage() {
 		isCollapsed: false,
 	}
 
-	const fetchClients = async () => {
+	const fetchClients = async (url?: string) => {
 		setLoading(true)
 		try {
 			const token = localStorage.getItem('accessToken')
@@ -300,18 +304,22 @@ export default function ClientsPage() {
 				throw new Error('Token not found in localStorage')
 			}
 
-			const response = await fetch(
-				`https://api.noventer.uz/api/v1/company/clients/?page=${page}${
-					searchQuery ? `&search=${searchQuery}` : ''
-				}`,
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
+			// Use the provided URL or construct a new one
+			const apiUrl =
+				url ||
+				`https://api.noventer.uz/api/v1/company/clients/?limit=${limit}&offset=${
+					(currentPage - 1) * limit
+				}${searchQuery ? `&search=${searchQuery}` : ''}`
+
+			console.log('Fetching from URL:', apiUrl)
+
+			const response = await fetch(apiUrl, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
 			if (!response.ok) {
 				throw new Error(
@@ -320,10 +328,24 @@ export default function ClientsPage() {
 			}
 
 			const data: ApiResponse = await response.json()
-			setClients(data.results)
+			console.log('API Response:', data)
 
-			const total = Math.ceil(data.count / 10)
+			// Update state with the new data
+			setClients(data.results)
+			setTotalCount(data.count)
+			setNextUrl(data.next)
+			setPrevUrl(data.previous)
+
+			// Calculate total pages
+			const total = Math.ceil(data.count / limit)
 			setTotalPages(total > 0 ? total : 1)
+
+			// If we navigated using next/prev, update the current page
+			if (url) {
+				const urlParams = new URLSearchParams(new URL(url).search)
+				const offset = Number.parseInt(urlParams.get('offset') || '0')
+				setCurrentPage(Math.floor(offset / limit) + 1)
+			}
 
 			setError(null)
 		} catch (err) {
@@ -341,9 +363,31 @@ export default function ClientsPage() {
 		}
 	}
 
+	// Initial fetch and when search changes
 	useEffect(() => {
 		fetchClients()
-	}, [page, searchQuery])
+	}, [searchQuery])
+
+	// When page changes
+	useEffect(() => {
+		fetchClients()
+	}, [currentPage])
+
+	const handlePageChange = (page: number) => {
+		setCurrentPage(page)
+	}
+
+	const handleNextPage = () => {
+		if (nextUrl) {
+			fetchClients(nextUrl)
+		}
+	}
+
+	const handlePrevPage = () => {
+		if (prevUrl) {
+			fetchClients(prevUrl)
+		}
+	}
 
 	const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
@@ -449,6 +493,7 @@ export default function ClientsPage() {
 			setLicensePreview(null)
 			setIsAddModalOpen(false)
 
+			// Refresh the client list
 			fetchClients()
 		} catch (err) {
 			console.log(
@@ -472,7 +517,7 @@ export default function ClientsPage() {
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault()
-		setPage(1)
+		setCurrentPage(1) // Reset to first page when searching
 		fetchClients()
 	}
 
@@ -648,66 +693,107 @@ export default function ClientsPage() {
 				</div>
 
 				{totalPages > 0 && (
-					<Pagination>
-						<PaginationContent className='mt-4 justify-center'>
-							<PaginationItem>
-								<PaginationPrevious
-									href='#'
-									onClick={e => {
-										e.preventDefault()
-										if (page > 1) setPage(page - 1)
-									}}
-									className={
-										page === 1
-											? 'pointer-events-none opacity-50'
-											: ''
-									}
-								/>
-							</PaginationItem>
-
-							{Array.from(
-								{ length: Math.min(totalPages, 5) },
-								(_, i) => {
-									const pageNumber = i + 1
-									return (
-										<PaginationItem key={pageNumber}>
-											<PaginationLink
-												href='#'
-												isActive={pageNumber === page}
-												onClick={e => {
-													e.preventDefault()
-													setPage(pageNumber)
-												}}
-											>
-												{pageNumber}
-											</PaginationLink>
-										</PaginationItem>
-									)
-								}
-							)}
-
-							{totalPages > 5 && (
+					<div className='mt-4'>
+						<div className='text-sm text-gray-500 mb-2 text-center'>
+							Jami: {totalCount} ta mijoz | {currentPage} /{' '}
+							{totalPages} sahifa
+						</div>
+						<Pagination>
+							<PaginationContent className='justify-center'>
 								<PaginationItem>
-									<PaginationEllipsis />
+									<PaginationPrevious
+										href='#'
+										onClick={e => {
+											e.preventDefault()
+											if (prevUrl) handlePrevPage()
+										}}
+										className={
+											!prevUrl
+												? 'pointer-events-none opacity-50'
+												: ''
+										}
+									/>
 								</PaginationItem>
-							)}
 
-							<PaginationItem>
-								<PaginationNext
-									href='#'
-									onClick={e => {
-										e.preventDefault()
-										if (page < totalPages) setPage(page + 1)
-									}}
-									className={
-										page === totalPages
-											? 'pointer-events-none opacity-50'
-											: ''
+								{Array.from(
+									{ length: Math.min(totalPages, 5) },
+									(_, i) => {
+										let pageNumber
+
+										if (totalPages <= 5) {
+											pageNumber = i + 1
+										} else if (currentPage <= 3) {
+											pageNumber = i + 1
+										} else if (
+											currentPage >=
+											totalPages - 2
+										) {
+											pageNumber = totalPages - 4 + i
+										} else {
+											pageNumber = currentPage - 2 + i
+										}
+
+										return (
+											<PaginationItem key={pageNumber}>
+												<PaginationLink
+													href='#'
+													isActive={
+														pageNumber ===
+														currentPage
+													}
+													onClick={e => {
+														e.preventDefault()
+														handlePageChange(
+															pageNumber
+														)
+													}}
+												>
+													{pageNumber}
+												</PaginationLink>
+											</PaginationItem>
+										)
 									}
-								/>
-							</PaginationItem>
-						</PaginationContent>
-					</Pagination>
+								)}
+
+								{totalPages > 5 &&
+									currentPage < totalPages - 2 && (
+										<>
+											<PaginationItem>
+												<PaginationEllipsis />
+											</PaginationItem>
+											<PaginationItem>
+												<PaginationLink
+													href='#'
+													onClick={e => {
+														e.preventDefault()
+														handlePageChange(
+															totalPages
+														)
+													}}
+												>
+													{totalPages}
+												</PaginationLink>
+											</PaginationItem>
+										</>
+									)}
+
+								<PaginationItem>
+									<PaginationNext
+										href='#'
+										onClick={e => {
+											e.preventDefault()
+											if (nextUrl) handleNextPage()
+										}}
+										className={
+											!nextUrl
+												? 'pointer-events-none opacity-50'
+												: ''
+										}
+									/>
+								</PaginationItem>
+							</PaginationContent>
+						</Pagination>
+					</div>
 				)}
 			</div>
 
