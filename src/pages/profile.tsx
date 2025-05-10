@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import { Button } from '../components/ui/button'
 import { Skeleton } from '../components/ui/skeleton'
+import { useUser } from '../context/UserContext'
 
 interface SidebarContextType {
 	isCollapsed: boolean
@@ -48,7 +49,7 @@ export default function ProfilePage() {
 	const [taskCount, setTaskCount] = useState(0)
 	const [officialSalary, setOfficialSalary] = useState(0)
 	const [unofficialSalary, setUnofficialSalary] = useState(0)
-
+	const { setUser } = useUser()
 	useEffect(() => {
 		const fetchUserData = async () => {
 			const token = localStorage.getItem('accessToken')
@@ -69,6 +70,10 @@ export default function ProfilePage() {
 				}
 
 				const data: UserData = await response.json()
+				setUser({
+					name: data.full_name,
+					avatarUrl: data.avatar,
+				})
 				setUserData(data)
 			} catch (error) {
 				console.error('Error fetching user data:', error)
